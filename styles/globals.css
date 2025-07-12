@@ -92,3 +92,5 @@ body {
     @apply bg-background text-foreground;
   }
 }
+
+/* This file is no longer used. All global styles are now in app/globals.css */

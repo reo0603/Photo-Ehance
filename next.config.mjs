@@ -7,6 +7,12 @@ const nextConfig = {
     ignoreBuildErrors: true,
   },
   images: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "blob.v0.dev",
+      },
+    ],
     unoptimized: true,
   },
 }

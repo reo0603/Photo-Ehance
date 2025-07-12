@@ -1,24 +1,30 @@
-import type { Metadata } from 'next'
-import Head from 'next/head'
-import './globals.css'
+import type React from "react"
+import "./globals.css"
+import { ThemeProvider } from "@/components/theme-provider"
+import { Inter } from "next/font/google" // Import Inter font
 
-export const metadata: Metadata = {
-  title: 'Photo Enhance',
-  description: 'Created with v0',
-  generator: 'v0.dev',
+const inter = Inter({ subsets: ["latin"] }) // Initialize Inter font
+
+export const metadata = {
+  title: "PhotoEnhance AI",
+  description: "Transform your photos with AI-powered enhancements.",
+    generator: 'v0.dev'
 }
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode
-}>) {
+}) {
   return (
-    <html lang="en">
-      <Head>
-        <link rel='icon' type='image/png' href='/placeholder-logo.png' />
-      </Head>
-      <body>{children}</body>
+    <html lang="en" suppressHydrationWarning>
+      <body className={inter.className}>
+        {" "}
+        {/* Apply Inter font to body */}
+        <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
+          {children}
+        </ThemeProvider>
+      </body>
     </html>
   )
 }

@@ -4,8 +4,9 @@ import type React from "react"
 import { useState, useCallback, useRef } from "react"
 import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { ImageIcon, Settings, Sliders, Clock, Trash2 } from "lucide-react"
+import { ImageIcon, Settings, Sliders, Clock, Trash2, Download, Share2 } from "lucide-react"
 import Image from "next/image"
+import Footer from "@/components/footer" // Import the new Footer component
 
 export default function PhotoEnhancementApp() {
   const [dragActive, setDragActive] = useState(false)
@@ -85,7 +86,7 @@ export default function PhotoEnhancementApp() {
   }
 
   const handleApplySettings = () => {
-    setNotificationMessage("Set successfully")
+    setNotificationMessage("Settings applied successfully!")
     setShowNotification(true)
     setTimeout(() => setShowNotification(false), 3000)
   }
@@ -109,12 +110,14 @@ export default function PhotoEnhancementApp() {
     setBeforeImageUrl("")
     setAfterImageUrl("")
     setShowComparison(false)
-    console.log("Photo deleted")
+    setNotificationMessage("Photo deleted successfully!")
+    setShowNotification(true)
+    setTimeout(() => setShowNotification(false), 3000)
   }
 
   const handleApplyPreferences = () => {
     setShowPreferencesModal(false)
-    setNotificationMessage("Set successfully")
+    setNotificationMessage("Preferences saved successfully!")
     setShowNotification(true)
     setTimeout(() => setShowNotification(false), 3000)
   }
@@ -134,52 +137,72 @@ export default function PhotoEnhancementApp() {
       document.body.appendChild(link)
       link.click()
       document.body.removeChild(link)
-      console.log("Downloading enhanced photo...")
+      setNotificationMessage("Download started!")
+      setShowNotification(true)
+      setTimeout(() => setShowNotification(false), 3000)
     } else {
-      console.log("No enhanced photo to download.")
+      setNotificationMessage("No enhanced photo to download.")
+      setShowNotification(true)
+      setTimeout(() => setShowNotification(false), 3000)
     }
   }
 
+  const handleSharePhoto = () => {
+    setNotificationMessage("Share functionality coming soon!")
+    setShowNotification(true)
+    setTimeout(() => setShowNotification(false), 3000)
+  }
+
   return (
-    <div className="min-h-screen bg-gray-50 p-4 md:p-8">
+    <div className="min-h-screen flex flex-col bg-brand-bg-light dark:bg-brand-bg-dark text-brand-text-dark dark:text-brand-text-light">
       {/* Notification */}
       {showNotification && (
-        <div className="fixed top-4 right-4 z-50 bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg animate-in slide-in-from-right duration-300">
+        <div className="fixed top-4 right-4 z-50 bg-brand-primary text-brand-text-light px-6 py-3 rounded-lg shadow-lg animate-in slide-in-from-right duration-300">
           <div className="flex items-center gap-2">
-            <div className="w-2 h-2 bg-white rounded-full"></div>
+            <div className="w-2 h-2 bg-brand-text-light rounded-full"></div>
             {notificationMessage}
           </div>
         </div>
       )}
-      <div className="max-w-4xl mx-auto space-y-8">
+      <main className="flex-1 max-w-4xl mx-auto px-4 py-8 space-y-10">
         {/* Header */}
-        <div className="text-center space-y-4">
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900">Transform Your Photos</h1>
-          <p className="text-lg md:text-xl text-gray-600 max-w-2xl mx-auto">
-            Enhance your appearance for social media with ease.
+        <div className="text-center space-y-4 animate-fade-in">
+          <Image
+            src="/logo.png"
+            alt="PhotoEnhance Logo"
+            width={96}
+            height={96}
+            className="mx-auto mb-4 animate-scale-in animate-delay-100"
+            priority
+          />
+          <h1 className="text-5xl md:text-6xl lg:text-7xl font-extrabold text-brand-text-dark dark:text-brand-text-light leading-tight animate-fade-in animate-delay-200">
+            Transform Your Photos
+          </h1>
+          <p className="text-lg md:text-xl text-gray-600 dark:text-gray-400 max-w-2xl mx-auto animate-fade-in animate-delay-300">
+            Enhance your appearance for social media with ease, powered by advanced AI.
           </p>
         </div>
 
         {/* Upload Area */}
-        <Card className="border-2 border-dashed border-gray-300 bg-white hover:border-gray-400 transition-colors">
+        <Card className="border-2 border-dashed border-gray-300 dark:border-gray-700 bg-white dark:bg-card hover:border-brand-primary/50 dark:hover:border-brand-primary/70 transition-all duration-300 shadow-lg hover:shadow-xl animate-fade-in animate-slide-in-from-bottom animate-delay-400">
           <CardContent className="p-8 md:p-12">
             <div
-              className={`relative flex flex-col items-center justify-center space-y-4 transition-all duration-200 ${
-                dragActive ? "bg-blue-50 scale-105" : ""
+              className={`relative flex flex-col items-center justify-center space-y-6 transition-all duration-300 ease-in-out ${
+                dragActive ? "bg-brand-primary/5 dark:bg-brand-primary/10 scale-[1.01] shadow-inner" : ""
               }`}
               onDragEnter={handleDrag}
               onDragLeave={handleDrag}
               onDragOver={handleDrag}
               onDrop={handleDrop}
             >
-              <div className="w-20 h-20 bg-gray-200 rounded-lg flex items-center justify-center">
-                <ImageIcon className="w-8 h-8 text-gray-400" />
+              <div className="w-24 h-24 bg-brand-secondary dark:bg-gray-800 rounded-full flex items-center justify-center shadow-md transition-transform duration-300 group-hover:scale-110">
+                <ImageIcon className="w-10 h-10 text-brand-primary" />
               </div>
 
               <div className="text-center space-y-2">
-                <p className="text-lg md:text-xl text-gray-700">
+                <p className="text-xl md:text-2xl text-brand-text-dark dark:text-brand-text-light font-semibold">
                   Drag and drop a photo or{" "}
-                  <label className="font-semibold text-gray-900 cursor-pointer hover:underline hover:text-blue-600 transition-colors">
+                  <label className="font-bold text-brand-primary cursor-pointer hover:underline hover:text-brand-primary/80 transition-colors">
                     Browse
                     <input
                       ref={fileInputRef}
@@ -190,7 +213,9 @@ export default function PhotoEnhancementApp() {
                     />
                   </label>
                 </p>
-                <p className="text-sm text-gray-500">Supports JPG, PNG, and other image formats</p>
+                <p className="text-sm text-gray-500 dark:text-gray-400">
+                  Supports JPG, PNG, WEBP, and other image formats
+                </p>
               </div>
             </div>
           </CardContent>
@@ -198,117 +223,131 @@ export default function PhotoEnhancementApp() {
 
         {/* Enhanced Photos Section */}
         {showComparison && (
-          <Card className="bg-white shadow-lg">
+          <Card className="bg-white dark:bg-card shadow-lg animate-fade-in animate-slide-in-from-bottom animate-delay-500">
             <CardContent className="p-6 md:p-8">
-              <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-6">Your Enhanced Photos</h2>
+              <h2 className="text-3xl md:text-4xl font-bold text-brand-text-dark dark:text-brand-text-light mb-8 text-center">
+                Your Enhanced Photos
+              </h2>
 
-              <div className="grid md:grid-cols-2 gap-6 mb-8">
+              <div className="grid md:grid-cols-2 gap-8 mb-10">
                 {/* Before Photo */}
-                <div className="relative group">
-                  <div className="aspect-[3/4] bg-gray-100 rounded-lg overflow-hidden shadow-md">
+                <div className="relative group rounded-xl overflow-hidden shadow-xl border border-gray-200 dark:border-gray-700">
+                  <div className="aspect-[3/4] bg-gray-100 dark:bg-gray-800 overflow-hidden">
                     {beforeImageUrl ? (
                       <Image
                         src={beforeImageUrl || "/placeholder.svg"}
                         alt="Before enhancement"
-                        width={300}
-                        height={400}
-                        className="w-full h-full object-cover transition-transform group-hover:scale-105"
+                        width={400}
+                        height={533}
+                        className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
                         unoptimized
                       />
                     ) : (
                       <div className="w-full h-full flex items-center justify-center">
-                        <ImageIcon className="w-12 h-12 text-gray-300" />
+                        <ImageIcon className="w-16 h-16 text-gray-300 dark:text-gray-600" />
                       </div>
                     )}
                   </div>
-                  <div className="absolute top-4 left-4 bg-black bg-opacity-50 text-white px-3 py-1 rounded-full text-sm font-medium">
-                    Before
+                  <div className="absolute top-4 left-4 bg-black bg-opacity-60 text-white px-4 py-2 rounded-full text-sm font-medium shadow-md">
+                    Original
                   </div>
                 </div>
 
                 {/* After Photo */}
-                <div className="relative group">
-                  <div className="aspect-[3/4] bg-gray-100 rounded-lg overflow-hidden shadow-md">
+                <div className="relative group rounded-xl overflow-hidden shadow-xl border border-brand-primary/30 dark:border-brand-primary/50">
+                  <div className="aspect-[3/4] bg-gray-100 dark:bg-gray-800 overflow-hidden">
                     {afterImageUrl ? (
                       <Image
                         src={afterImageUrl || "/placeholder.svg"}
                         alt="After enhancement"
-                        width={300}
-                        height={400}
-                        className="w-full h-full object-cover transition-transform group-hover:scale-105"
+                        width={400}
+                        height={533}
+                        className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
                         unoptimized
                       />
                     ) : (
                       <div className="w-full h-full flex items-center justify-center">
-                        <ImageIcon className="w-12 h-12 text-gray-300" />
+                        <ImageIcon className="w-16 h-16 text-gray-300 dark:text-gray-600" />
                       </div>
                     )}
                   </div>
-                  <div className="absolute top-4 left-4 bg-green-500 text-white px-3 py-1 rounded-full text-sm font-medium">
-                    After
+                  <div className="absolute top-4 left-4 bg-brand-accent text-white px-4 py-2 rounded-full text-sm font-medium shadow-md">
+                    Enhanced
+                  </div>
+
+                  {/* Before/After Toggle (Placeholder for future interactive comparison) */}
+                  <div className="absolute bottom-4 right-4">
+                    <div className="bg-white dark:bg-gray-800 rounded-full px-4 py-2 shadow-lg border border-gray-200 dark:border-gray-700 flex items-center space-x-2">
+                      <span className="text-sm font-medium text-gray-600 dark:text-gray-400">Before</span>
+                      <div className="w-10 h-5 bg-gray-300 dark:bg-gray-600 rounded-full relative flex items-center p-0.5">
+                        <div className="w-4 h-4 bg-brand-primary rounded-full absolute right-0 transition-all duration-300"></div>
+                      </div>
+                      <span className="text-sm font-medium text-brand-text-dark dark:text-brand-text-light">After</span>
+                    </div>
                   </div>
                 </div>
               </div>
 
               {/* Enhancement Options */}
-              <div className="mb-8">
-                <h3 className="text-lg font-semibold text-gray-900 mb-4 text-center">Choose Enhancement Type</h3>
+              <div className="mb-10">
+                <h3 className="text-xl font-semibold text-brand-text-dark dark:text-brand-text-light mb-6 text-center">
+                  Choose Enhancement Type
+                </h3>
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-
                   <Button
-                    className="flex flex-col items-center gap-2 h-20 bg-gradient-to-br from-pink-500 to-pink-600 hover:from-pink-600 hover:to-pink-700 text-white border-0"
+                    className="flex flex-col items-center gap-2 h-24 bg-gradient-to-br from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800 text-white border-0 rounded-xl shadow-md hover:shadow-lg transition-all duration-200 hover:scale-105"
                     onClick={() => {
-                      setNotificationMessage("Enhance Successfully")
+                      setNotificationMessage("Clothes enhanced!")
                       setShowNotification(true)
                       setTimeout(() => setShowNotification(false), 3000)
                     }}
                   >
-                    <div className="w-6 h-6 bg-white bg-opacity-20 rounded-full flex items-center justify-center">
-                      <span className="text-xs">😊</span>
-                    </div>
-                    <span className="text-sm font-medium">Enhance Face</span>
-                  </Button>
-
-                  <Button
-                    className="flex flex-col items-center gap-2 h-20 bg-gradient-to-br from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white border-0"
-                    onClick={() => {
-                      setNotificationMessage("Enhance Successfully")
-                      setShowNotification(true)
-                      setTimeout(() => setShowNotification(false), 3000)
-                    }}
-                  >
-                    <div className="w-6 h-6 bg-white bg-opacity-20 rounded-full flex items-center justify-center">
-                      <span className="text-xs">💪</span>
-                    </div>
-                    <span className="text-sm font-medium">Enhance Body</span>
-                  </Button>
-
-                  <Button
-                    className="flex flex-col items-center gap-2 h-20 bg-gradient-to-br from-purple-500 to-purple-600 hover:from-purple-600 hover:to-purple-700 text-white border-0"
-                    onClick={() => {
-                      setNotificationMessage("Enhance Successfully")
-                      setShowNotification(true)
-                      setTimeout(() => setShowNotification(false), 3000)
-                    }}
-                  >
-                    <div className="w-6 h-6 bg-white bg-opacity-20 rounded-full flex items-center justify-center">
-                      <span className="text-xs">👔</span>
+                    <div className="w-8 h-8 bg-white bg-opacity-20 rounded-full flex items-center justify-center">
+                      <span className="text-lg">👔</span>
                     </div>
                     <span className="text-sm font-medium">Enhance Clothes</span>
                   </Button>
 
                   <Button
-                    className="flex flex-col items-center gap-2 h-20 bg-gradient-to-br from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white border-0"
+                    className="flex flex-col items-center gap-2 h-24 bg-gradient-to-br from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white border-0 rounded-xl shadow-md hover:shadow-lg transition-all duration-200 hover:scale-105"
                     onClick={() => {
-                      setNotificationMessage("Enhance Successfully")
+                      setNotificationMessage("Body enhanced!")
                       setShowNotification(true)
                       setTimeout(() => setShowNotification(false), 3000)
                     }}
                   >
-                    <div className="w-6 h-6 bg-white bg-opacity-20 rounded-full flex items-center justify-center">
-                      <span className="text-xs">🌅</span>
+                    <div className="w-8 h-8 bg-white bg-opacity-20 rounded-full flex items-center justify-center">
+                      <span className="text-lg">💪</span>
+                    </div>
+                    <span className="text-sm font-medium">Enhance Body</span>
+                  </Button>
+
+                  <Button
+                    className="flex flex-col items-center gap-2 h-24 bg-gradient-to-br from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white border-0 rounded-xl shadow-md hover:shadow-lg transition-all duration-200 hover:scale-105"
+                    onClick={() => {
+                      setNotificationMessage("Background enhanced!")
+                      setShowNotification(true)
+                      setTimeout(() => setShowNotification(false), 3000)
+                    }}
+                  >
+                    <div className="w-8 h-8 bg-white bg-opacity-20 rounded-full flex items-center justify-center">
+                      <span className="text-lg">🌅</span>
                     </div>
                     <span className="text-sm font-medium">Enhance Background</span>
+                  </Button>
+
+                  <Button
+                    className="flex flex-col items-center gap-2 h-24 bg-gradient-to-br from-pink-600 to-pink-700 hover:from-pink-700 hover:to-pink-800 text-white border-0 rounded-xl shadow-md hover:shadow-lg transition-all duration-200 hover:scale-105"
+                    onClick={() => {
+                      setNotificationMessage("Face enhanced!")
+                      setShowNotification(true)
+                      setTimeout(() => setShowNotification(false), 3000)
+                    }}
+                  >
+                    <div className="w-8 h-8 bg-white bg-opacity-20 rounded-full flex items-center justify-center">
+                      <span className="text-lg">😊</span>
+                    </div>
+                    <span className="text-sm font-medium">Enhance Face</span>
                   </Button>
                 </div>
               </div>
@@ -317,54 +356,65 @@ export default function PhotoEnhancementApp() {
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                 <Button
                   variant="outline"
-                  className="flex items-center gap-2 h-12 hover:bg-gray-50 transition-colors bg-transparent"
+                  className="flex items-center gap-2 h-12 bg-white dark:bg-card hover:bg-brand-secondary dark:hover:bg-gray-800 transition-colors border-gray-300 dark:border-gray-700 rounded-lg shadow-sm hover:shadow-md transition-all duration-200 hover:scale-105"
                   onClick={handleApplySettings}
                 >
-                  <Settings className="w-4 h-4" />
-                  <span className="hidden sm:inline">Apply last settings</span>
-                  <span className="sm:hidden">Settings</span>
+                  <Settings className="w-4 h-4 text-gray-700 dark:text-gray-300" />
+                  <span className="hidden sm:inline text-brand-text-dark dark:text-brand-text-light">
+                    Apply last settings
+                  </span>
+                  <span className="sm:hidden text-brand-text-dark dark:text-brand-text-light">Settings</span>
                 </Button>
 
                 <Button
                   variant="outline"
-                  className="flex items-center gap-2 h-12 hover:bg-gray-50 transition-colors bg-transparent"
+                  className="flex items-center gap-2 h-12 bg-white dark:bg-card hover:bg-brand-secondary dark:hover:bg-gray-800 transition-colors border-gray-300 dark:border-gray-700 rounded-lg shadow-sm hover:shadow-md transition-all duration-200 hover:scale-105"
                   onClick={handleEditPreferences}
                 >
-                  <Sliders className="w-4 h-4" />
-                  <span className="hidden sm:inline">Edit preferences</span>
-                  <span className="sm:hidden">Edit</span>
+                  <Sliders className="w-4 h-4 text-gray-700 dark:text-gray-300" />
+                  <span className="hidden sm:inline text-brand-text-dark dark:text-brand-text-light">
+                    Edit preferences
+                  </span>
+                  <span className="sm:hidden text-brand-text-dark dark:text-brand-text-light">Edit</span>
                 </Button>
 
                 <Button
                   variant="outline"
-                  className="flex items-center gap-2 h-12 hover:bg-gray-50 transition-colors bg-transparent"
+                  className="flex items-center gap-2 h-12 bg-white dark:bg-card hover:bg-brand-secondary dark:hover:bg-gray-800 transition-colors border-gray-300 dark:border-gray-700 rounded-lg shadow-sm hover:shadow-md transition-all duration-200 hover:scale-105"
                   onClick={handleViewHistory}
                 >
-                  <Clock className="w-4 h-4" />
-                  <span className="hidden sm:inline">View history</span>
-                  <span className="sm:hidden">History</span>
+                  <Clock className="w-4 h-4 text-gray-700 dark:text-gray-300" />
+                  <span className="hidden sm:inline text-brand-text-dark dark:text-brand-text-light">View history</span>
+                  <span className="sm:hidden text-brand-text-dark dark:text-brand-text-light">History</span>
                 </Button>
 
                 <Button
                   variant="outline"
-                  className="flex items-center gap-2 h-12 hover:bg-red-50 hover:text-red-600 hover:border-red-200 transition-colors bg-transparent"
+                  className="flex items-center gap-2 h-12 bg-white dark:bg-card hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-600 dark:hover:text-red-400 hover:border-red-200 dark:hover:border-red-900 transition-colors rounded-lg shadow-sm hover:shadow-md transition-all duration-200 hover:scale-105"
                   onClick={handleDelete}
                 >
                   <Trash2 className="w-4 h-4" />
-                  <span className="hidden sm:inline">Delete</span>
-                  <span className="sm:hidden">Delete</span>
+                  <span className="hidden sm:inline text-brand-text-dark dark:text-brand-text-light">Delete Photo</span>
+                  <span className="sm:hidden text-brand-text-dark dark:text-brand-text-light">Delete</span>
                 </Button>
               </div>
 
               {/* Download/Share Section */}
               {uploadedFile && (
-                <div className="mt-6 pt-6 border-t border-gray-200">
+                <div className="mt-8 pt-8 border-t border-gray-200 dark:border-gray-700">
                   <div className="flex flex-col sm:flex-row gap-4 justify-center">
                     <Button
-                      className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3"
+                      className="bg-brand-primary hover:bg-brand-primary/90 text-brand-text-light px-8 py-3 rounded-lg shadow-md hover:shadow-lg transition-all duration-200 hover:scale-105"
                       onClick={handleDownloadEnhancedPhoto}
                     >
-                      Download Enhanced Photo
+                      <Download className="w-5 h-5 mr-2" /> Download Enhanced Photo
+                    </Button>
+                    <Button
+                      variant="outline"
+                      className="px-8 py-3 bg-white dark:bg-card hover:bg-brand-secondary dark:hover:bg-gray-800 text-brand-primary dark:text-brand-primary/80 border-brand-primary dark:border-brand-primary/50 rounded-lg shadow-md hover:shadow-lg transition-all duration-200 hover:scale-105"
+                      onClick={handleSharePhoto}
+                    >
+                      <Share2 className="w-5 h-5 mr-2" /> Share to Social Media
                     </Button>
                   </div>
                 </div>
@@ -374,64 +424,70 @@ export default function PhotoEnhancementApp() {
         )}
 
         {/* Features Section */}
-        <div className="grid md:grid-cols-3 gap-6 mt-12">
-          <Card className="text-center p-6">
-            <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mx-auto mb-4">
-              <ImageIcon className="w-6 h-6 text-blue-600" />
+        <div className="grid md:grid-cols-3 gap-6 mt-12 animate-fade-in animate-slide-in-from-bottom animate-delay-600">
+          <Card className="text-center p-6 bg-white dark:bg-card rounded-xl shadow-lg transition-all duration-200 hover:scale-105 hover:shadow-xl border border-gray-200 dark:border-gray-700">
+            <div className="w-16 h-16 bg-brand-primary/10 dark:bg-brand-primary/20 rounded-full flex items-center justify-center mx-auto mb-4 shadow-inner">
+              <ImageIcon className="w-8 h-8 text-brand-primary" />
             </div>
-            <h3 className="font-semibold text-lg mb-2">AI Enhancement</h3>
-            <p className="text-gray-600 text-sm">
+            <h3 className="font-bold text-xl mb-2 text-brand-text-dark dark:text-brand-text-light">AI Enhancement</h3>
+            <p className="text-gray-600 dark:text-gray-400 text-sm">
               Advanced AI algorithms automatically enhance your photos for the best results.
             </p>
           </Card>
 
-          <Card className="text-center p-6">
-            <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center mx-auto mb-4">
-              <Settings className="w-6 h-6 text-green-600" />
+          <Card className="text-center p-6 bg-white dark:bg-card rounded-xl shadow-lg transition-all duration-200 hover:scale-105 hover:shadow-xl border border-gray-200 dark:border-gray-700">
+            <div className="w-16 h-16 bg-brand-accent/10 dark:bg-brand-accent/20 rounded-full flex items-center justify-center mx-auto mb-4 shadow-inner">
+              <Settings className="w-8 h-8 text-brand-accent" />
             </div>
-            <h3 className="font-semibold text-lg mb-2">Custom Settings</h3>
-            <p className="text-gray-600 text-sm">
+            <h3 className="font-bold text-xl mb-2 text-brand-text-dark dark:text-brand-text-light">Custom Settings</h3>
+            <p className="text-gray-600 dark:text-gray-400 text-sm">
               Fine-tune your enhancements with customizable settings and preferences.
             </p>
           </Card>
 
-          <Card className="text-center p-6">
-            <div className="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center mx-auto mb-4">
-              <Clock className="w-6 h-6 text-purple-600" />
+          <Card className="text-center p-6 bg-white dark:bg-card rounded-xl shadow-lg transition-all duration-200 hover:scale-105 hover:shadow-xl border border-gray-200 dark:border-gray-700">
+            <div className="w-16 h-16 bg-purple-600/10 dark:bg-purple-600/20 rounded-full flex items-center justify-center mx-auto mb-4 shadow-inner">
+              <Clock className="w-8 h-8 text-purple-600 dark:text-purple-400" />
             </div>
-            <h3 className="font-semibold text-lg mb-2">Quick Processing</h3>
-            <p className="text-gray-600 text-sm">
+            <h3 className="font-bold text-xl mb-2 text-brand-text-dark dark:text-brand-text-light">Quick Processing</h3>
+            <p className="text-gray-600 dark:text-gray-400 text-sm">
               Get your enhanced photos in seconds with our fast processing engine.
             </p>
           </Card>
         </div>
-      </div>
+      </main>
+
       {/* History Modal */}
       {showHistoryModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-40 p-4">
-          <div className="bg-white rounded-lg max-w-4xl w-full max-h-[80vh] overflow-y-auto">
+        <div className="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-40 p-4 animate-fade-in">
+          <div className="bg-white dark:bg-card rounded-xl max-w-4xl w-full max-h-[80vh] overflow-y-auto animate-scale-in animate-fade-in shadow-2xl">
             <div className="p-6">
-              <div className="flex justify-between items-center mb-6">
-                <h2 className="text-2xl font-bold text-gray-900">Enhance Photo History</h2>
+              <div className="flex justify-between items-center mb-6 border-b pb-4 border-gray-200 dark:border-gray-700">
+                <h2 className="text-2xl font-bold text-brand-text-dark dark:text-brand-text-light">
+                  Enhance Photo History
+                </h2>
                 <Button
-                  variant="outline"
+                  variant="ghost"
                   size="sm"
                   onClick={() => setShowHistoryModal(false)}
-                  className="text-gray-500 hover:text-gray-700"
+                  className="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200"
                 >
                   ✕
                 </Button>
               </div>
-              <div className="grid grid-cols-3 gap-4">
+              <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
                 {photoHistory.map((photo, index) => (
-                  <div key={index} className="relative group cursor-pointer">
-                    <div className="aspect-[3/4] bg-gray-100 rounded-lg overflow-hidden">
+                  <div
+                    key={index}
+                    className="relative group cursor-pointer rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-all duration-200"
+                  >
+                    <div className="aspect-[3/4] bg-gray-100 dark:bg-gray-800 overflow-hidden">
                       <Image
                         src={photo || "/placeholder.svg"}
                         alt={`Enhanced photo ${index + 1}`}
                         width={150}
                         height={200}
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform"
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                         unoptimized
                       />
                     </div>
@@ -446,16 +502,18 @@ export default function PhotoEnhancementApp() {
 
       {/* Preferences Modal */}
       {showPreferencesModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-40 p-4">
-          <div className="bg-white rounded-lg max-w-md w-full">
+        <div className="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-40 p-4 animate-fade-in">
+          <div className="bg-white dark:bg-card rounded-xl max-w-md w-full animate-scale-in animate-fade-in shadow-2xl">
             <div className="p-6">
-              <div className="flex justify-between items-center mb-6">
-                <h2 className="text-xl font-bold text-gray-900">Training AI Photo Enhance Model</h2>
+              <div className="flex justify-between items-center mb-6 border-b pb-4 border-gray-200 dark:border-gray-700">
+                <h2 className="text-xl font-bold text-brand-text-dark dark:text-brand-text-light">
+                  Training AI Photo Enhance Model
+                </h2>
                 <Button
-                  variant="outline"
+                  variant="ghost"
                   size="sm"
                   onClick={() => setShowPreferencesModal(false)}
-                  className="text-gray-500 hover:text-gray-700"
+                  className="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200"
                 >
                   ✕
                 </Button>
@@ -464,7 +522,7 @@ export default function PhotoEnhancementApp() {
               <div className="space-y-6">
                 {/* Face Slider */}
                 <div className="flex items-center gap-4">
-                  <label className="w-20 text-sm font-medium text-gray-700">Face</label>
+                  <label className="w-24 text-sm font-medium text-gray-700 dark:text-gray-300">Face</label>
                   <div className="flex-1">
                     <input
                       type="range"
@@ -472,15 +530,15 @@ export default function PhotoEnhancementApp() {
                       max="100"
                       value={preferences.face}
                       onChange={(e) => handlePreferenceChange("face", Number.parseInt(e.target.value))}
-                      className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer slider"
+                      className="w-full h-2 bg-gray-200 dark:bg-gray-700 rounded-lg appearance-none cursor-pointer slider-thumb-brand-primary"
                     />
                   </div>
-                  <span className="w-8 text-sm text-gray-600">{preferences.face}</span>
+                  <span className="w-10 text-sm text-gray-600 dark:text-gray-400 text-right">{preferences.face}</span>
                 </div>
 
                 {/* Body Slider */}
                 <div className="flex items-center gap-4">
-                  <label className="w-20 text-sm font-medium text-gray-700">Body</label>
+                  <label className="w-24 text-sm font-medium text-gray-700 dark:text-gray-300">Body</label>
                   <div className="flex-1">
                     <input
                       type="range"
@@ -488,15 +546,15 @@ export default function PhotoEnhancementApp() {
                       max="100"
                       value={preferences.body}
                       onChange={(e) => handlePreferenceChange("body", Number.parseInt(e.target.value))}
-                      className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer slider"
+                      className="w-full h-2 bg-gray-200 dark:bg-gray-700 rounded-lg appearance-none cursor-pointer slider-thumb-brand-primary"
                     />
                   </div>
-                  <span className="w-8 text-sm text-gray-600">{preferences.body}</span>
+                  <span className="w-10 text-sm text-gray-600 dark:text-gray-400 text-right">{preferences.body}</span>
                 </div>
 
                 {/* Clothes Slider */}
                 <div className="flex items-center gap-4">
-                  <label className="w-20 text-sm font-medium text-gray-700">Clothes</label>
+                  <label className="w-24 text-sm font-medium text-gray-700 dark:text-gray-300">Clothes</label>
                   <div className="flex-1">
                     <input
                       type="range"
@@ -504,15 +562,17 @@ export default function PhotoEnhancementApp() {
                       max="100"
                       value={preferences.clothes}
                       onChange={(e) => handlePreferenceChange("clothes", Number.parseInt(e.target.value))}
-                      className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer slider"
+                      className="w-full h-2 bg-gray-200 dark:bg-gray-700 rounded-lg appearance-none cursor-pointer slider-thumb-brand-primary"
                     />
                   </div>
-                  <span className="w-8 text-sm text-gray-600">{preferences.clothes}</span>
+                  <span className="w-10 text-sm text-gray-600 dark:text-gray-400 text-right">
+                    {preferences.clothes}
+                  </span>
                 </div>
 
                 {/* Background Slider */}
                 <div className="flex items-center gap-4">
-                  <label className="w-20 text-sm font-medium text-gray-700">Background</label>
+                  <label className="w-24 text-sm font-medium text-gray-700 dark:text-gray-300">Background</label>
                   <div className="flex-1">
                     <input
                       type="range"
@@ -520,17 +580,19 @@ export default function PhotoEnhancementApp() {
                       max="100"
                       value={preferences.background}
                       onChange={(e) => handlePreferenceChange("background", Number.parseInt(e.target.value))}
-                      className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer slider"
+                      className="w-full h-2 bg-gray-200 dark:bg-gray-700 rounded-lg appearance-none cursor-pointer slider-thumb-brand-primary"
                     />
                   </div>
-                  <span className="w-8 text-sm text-gray-600">{preferences.background}</span>
+                  <span className="w-10 text-sm text-gray-600 dark:text-gray-400 text-right">
+                    {preferences.background}
+                  </span>
                 </div>
 
                 {/* Apply Button */}
                 <div className="flex justify-end pt-4">
                   <Button
                     onClick={handleApplyPreferences}
-                    className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-2"
+                    className="bg-brand-primary hover:bg-brand-primary/90 text-brand-text-light px-8 py-2 rounded-lg shadow-md hover:shadow-lg transition-all duration-200 hover:scale-105"
                   >
                     APPLY
                   </Button>
@@ -540,28 +602,39 @@ export default function PhotoEnhancementApp() {
           </div>
         </div>
       )}
+      <Footer />
     </div>
   )
 }
 ;<style jsx>{`
-  .slider::-webkit-slider-thumb {
+  .slider-thumb-brand-primary::-webkit-slider-thumb {
     appearance: none;
     height: 20px;
     width: 20px;
     border-radius: 50%;
-    background: #3b82f6;
+    background: hsl(var(--primary)); /* Use brand primary color */
     cursor: pointer;
-    border: 2px solid #ffffff;
+    border: 2px solid hsl(var(--background));
     box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    transition: background 0.2s ease-in-out, transform 0.2s ease-in-out;
   }
-  
-  .slider::-moz-range-thumb {
+
+  .slider-thumb-brand-primary::-moz-range-thumb {
     height: 20px;
     width: 20px;
     border-radius: 50%;
-    background: #3b82f6;
+    background: hsl(var(--primary)); /* Use brand primary color */
     cursor: pointer;
-    border: 2px solid #ffffff;
+    border: 2px solid hsl(var(--background));
     box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    transition: background 0.2s ease-in-out, transform 0.2s ease-in-out;
+  }
+
+  .slider-thumb-brand-primary::-webkit-slider-thumb:hover {
+    transform: scale(1.1);
+  }
+
+  .slider-thumb-brand-primary::-moz-range-thumb:hover {
+    transform: scale(1.1);
   }
 `}</style>
