@@ -185,7 +185,7 @@ export default function PhotoEnhancementApp() {
 
         {/* Upload Area */}
         <Card className="border-2 border-dashed border-gray-300 dark:border-gray-700 bg-white dark:bg-card hover:border-brand-primary/50 dark:hover:border-brand-primary/70 transition-all duration-300 shadow-lg hover:shadow-xl animate-fade-in animate-slide-in-from-bottom animate-delay-400">
-          <CardContent className="p-8 md:p-12">
+          <CardContent className="p-8 md:p-12 bg-black">
             <div
               className={`relative flex flex-col items-center justify-center space-y-6 transition-all duration-300 ease-in-out ${
                 dragActive ? "bg-brand-primary/5 dark:bg-brand-primary/10 scale-[1.01] shadow-inner" : ""
@@ -224,7 +224,7 @@ export default function PhotoEnhancementApp() {
         {/* Enhanced Photos Section */}
         {showComparison && (
           <Card className="bg-white dark:bg-card shadow-lg animate-fade-in animate-slide-in-from-bottom animate-delay-500">
-            <CardContent className="p-6 md:p-8">
+            <CardContent className="p-6 md:p-8 bg-black">
               <h2 className="text-3xl md:text-4xl font-bold text-brand-text-dark dark:text-brand-text-light mb-8 text-center">
                 Your Enhanced Photos
               </h2>
@@ -347,7 +347,7 @@ export default function PhotoEnhancementApp() {
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                 <Button
                   variant="outline"
-                  className="flex items-center gap-2 h-12 bg-white dark:bg-card hover:bg-brand-secondary dark:hover:bg-gray-800 transition-colors border-gray-300 dark:border-gray-700 rounded-lg shadow-sm hover:shadow-md transition-all duration-200 hover:scale-105"
+                  className="flex items-center gap-2 h-12 bg-black hover:bg-brand-secondary dark:hover:bg-gray-800 transition-colors border-gray-300 dark:border-gray-700 rounded-lg shadow-sm hover:shadow-md transition-all duration-200 hover:scale-105"
                   onClick={handleApplySettings}
                 >
                   <Settings className="w-4 h-4 text-gray-700 dark:text-gray-300" />
@@ -359,7 +359,7 @@ export default function PhotoEnhancementApp() {
 
                 <Button
                   variant="outline"
-                  className="flex items-center gap-2 h-12 bg-white dark:bg-card hover:bg-brand-secondary dark:hover:bg-gray-800 transition-colors border-gray-300 dark:border-gray-700 rounded-lg shadow-sm hover:shadow-md transition-all duration-200 hover:scale-105"
+                  className="flex items-center gap-2 h-12 bg-black hover:bg-brand-secondary dark:hover:bg-gray-800 transition-colors border-gray-300 dark:border-gray-700 rounded-lg shadow-sm hover:shadow-md transition-all duration-200 hover:scale-105"
                   onClick={handleEditPreferences}
                 >
                   <Sliders className="w-4 h-4 text-gray-700 dark:text-gray-300" />
@@ -371,7 +371,7 @@ export default function PhotoEnhancementApp() {
 
                 <Button
                   variant="outline"
-                  className="flex items-center gap-2 h-12 bg-white dark:bg-card hover:bg-brand-secondary dark:hover:bg-gray-800 transition-colors border-gray-300 dark:border-gray-700 rounded-lg shadow-sm hover:shadow-md transition-all duration-200 hover:scale-105"
+                  className="flex items-center gap-2 h-12 bg-black hover:bg-brand-secondary dark:hover:bg-gray-800 transition-colors border-gray-300 dark:border-gray-700 rounded-lg shadow-sm hover:shadow-md transition-all duration-200 hover:scale-105"
                   onClick={handleViewHistory}
                 >
                   <Clock className="w-4 h-4 text-gray-700 dark:text-gray-300" />
@@ -381,7 +381,7 @@ export default function PhotoEnhancementApp() {
 
                 <Button
                   variant="outline"
-                  className="flex items-center gap-2 h-12 bg-white dark:bg-card hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-600 dark:hover:text-red-400 hover:border-red-200 dark:hover:border-red-900 transition-colors rounded-lg shadow-sm hover:shadow-md transition-all duration-200 hover:scale-105"
+                  className="flex items-center gap-2 h-12 bg-black hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-600 dark:hover:text-red-400 hover:border-red-200 dark:hover:border-red-900 transition-colors rounded-lg shadow-sm hover:shadow-md transition-all duration-200 hover:scale-105"
                   onClick={handleDelete}
                 >
                   <Trash2 className="w-4 h-4" />
@@ -416,7 +416,7 @@ export default function PhotoEnhancementApp() {
 
         {/* Features Section */}
         <div className="grid md:grid-cols-3 gap-6 mt-12 animate-fade-in animate-slide-in-from-bottom animate-delay-600">
-          <Card className="text-center p-6 bg-white dark:bg-card rounded-xl shadow-lg transition-all duration-200 hover:scale-105 hover:shadow-xl border border-gray-200 dark:border-gray-700">
+          <Card className="text-center p-6 bg-black rounded-xl shadow-lg transition-all duration-200 hover:scale-105 hover:shadow-xl border border-gray-200 dark:border-gray-700">
             <div className="w-16 h-16 bg-brand-primary/10 dark:bg-brand-primary/20 rounded-full flex items-center justify-center mx-auto mb-4 shadow-inner">
               <ImageIcon className="w-8 h-8 text-brand-primary" />
             </div>
@@ -426,7 +426,7 @@ export default function PhotoEnhancementApp() {
             </p>
           </Card>
 
-          <Card className="text-center p-6 bg-white dark:bg-card rounded-xl shadow-lg transition-all duration-200 hover:scale-105 hover:shadow-xl border border-gray-200 dark:border-gray-700">
+          <Card className="text-center p-6 bg-black rounded-xl shadow-lg transition-all duration-200 hover:scale-105 hover:shadow-xl border border-gray-200 dark:border-gray-700">
             <div className="w-16 h-16 bg-brand-accent/10 dark:bg-brand-accent/20 rounded-full flex items-center justify-center mx-auto mb-4 shadow-inner">
               <Settings className="w-8 h-8 text-brand-accent" />
             </div>
@@ -436,7 +436,7 @@ export default function PhotoEnhancementApp() {
             </p>
           </Card>
 
-          <Card className="text-center p-6 bg-white dark:bg-card rounded-xl shadow-lg transition-all duration-200 hover:scale-105 hover:shadow-xl border border-gray-200 dark:border-gray-700">
+          <Card className="text-center p-6 bg-black rounded-xl shadow-lg transition-all duration-200 hover:scale-105 hover:shadow-xl border border-gray-200 dark:border-gray-700">
             <div className="w-16 h-16 bg-purple-600/10 dark:bg-purple-600/20 rounded-full flex items-center justify-center mx-auto mb-4 shadow-inner">
               <Clock className="w-8 h-8 text-purple-600 dark:text-purple-400" />
             </div>

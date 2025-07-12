@@ -2,8 +2,23 @@ import type React from "react"
 import "./globals.css"
 import { ThemeProvider } from "@/components/theme-provider"
 import { Inter } from "next/font/google" // Import Inter font
+import localFont from 'next/font/local'
 
-const inter = Inter({ subsets: ["latin"] }) // Initialize Inter font
+const inter = localFont({
+  src: [
+    {
+      path: '../public/fonts/inter/Inter-Regular.woff2',
+      weight: '400',
+      style: 'normal',
+    },
+    {
+      path: '../public/fonts/inter/Inter-Bold.woff2',
+      weight: '700',
+      style: 'normal',
+    },
+  ],
+  display: 'swap',
+}); // Initialize Inter font
 
 export const metadata = {
   title: "PhotoEnhance AI",
@@ -18,6 +33,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" suppressHydrationWarning>
+      <head>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" />
+      </head>
       <body className={inter.className}>
         {" "}
         {/* Apply Inter font to body */}
