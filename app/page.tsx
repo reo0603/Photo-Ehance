@@ -294,18 +294,19 @@ export default function PhotoEnhancementApp() {
                   Choose Enhancement Type
                 </h3>
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+
                   <Button
-                    className="flex flex-col items-center gap-2 h-24 bg-gradient-to-br from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800 text-white border-0 rounded-xl shadow-md hover:shadow-lg transition-all duration-200 hover:scale-105"
+                    className="flex flex-col items-center gap-2 h-24 bg-gradient-to-br from-pink-600 to-pink-700 hover:from-pink-700 hover:to-pink-800 text-white border-0 rounded-xl shadow-md hover:shadow-lg transition-all duration-200 hover:scale-105"
                     onClick={() => {
-                      setNotificationMessage("Clothes enhanced!")
+                      setNotificationMessage("Face enhanced!")
                       setShowNotification(true)
                       setTimeout(() => setShowNotification(false), 3000)
                     }}
                   >
                     <div className="w-8 h-8 bg-white bg-opacity-20 rounded-full flex items-center justify-center">
-                      <span className="text-lg">👔</span>
+                      <span className="text-lg">😊</span>
                     </div>
-                    <span className="text-sm font-medium">Enhance Clothes</span>
+                    <span className="text-sm font-medium">Enhance Face</span>
                   </Button>
 
                   <Button
@@ -323,6 +324,20 @@ export default function PhotoEnhancementApp() {
                   </Button>
 
                   <Button
+                    className="flex flex-col items-center gap-2 h-24 bg-gradient-to-br from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800 text-white border-0 rounded-xl shadow-md hover:shadow-lg transition-all duration-200 hover:scale-105"
+                    onClick={() => {
+                      setNotificationMessage("Clothes enhanced!")
+                      setShowNotification(true)
+                      setTimeout(() => setShowNotification(false), 3000)
+                    }}
+                  >
+                    <div className="w-8 h-8 bg-white bg-opacity-20 rounded-full flex items-center justify-center">
+                      <span className="text-lg">👔</span>
+                    </div>
+                    <span className="text-sm font-medium">Enhance Clothes</span>
+                  </Button>
+
+                  <Button
                     className="flex flex-col items-center gap-2 h-24 bg-gradient-to-br from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white border-0 rounded-xl shadow-md hover:shadow-lg transition-all duration-200 hover:scale-105"
                     onClick={() => {
                       setNotificationMessage("Background enhanced!")
@@ -336,19 +351,6 @@ export default function PhotoEnhancementApp() {
                     <span className="text-sm font-medium">Enhance Background</span>
                   </Button>
 
-                  <Button
-                    className="flex flex-col items-center gap-2 h-24 bg-gradient-to-br from-pink-600 to-pink-700 hover:from-pink-700 hover:to-pink-800 text-white border-0 rounded-xl shadow-md hover:shadow-lg transition-all duration-200 hover:scale-105"
-                    onClick={() => {
-                      setNotificationMessage("Face enhanced!")
-                      setShowNotification(true)
-                      setTimeout(() => setShowNotification(false), 3000)
-                    }}
-                  >
-                    <div className="w-8 h-8 bg-white bg-opacity-20 rounded-full flex items-center justify-center">
-                      <span className="text-lg">😊</span>
-                    </div>
-                    <span className="text-sm font-medium">Enhance Face</span>
-                  </Button>
                 </div>
               </div>
 
@@ -409,13 +411,13 @@ export default function PhotoEnhancementApp() {
                     >
                       <Download className="w-5 h-5 mr-2" /> Download Enhanced Photo
                     </Button>
-                    <Button
+                    {/* <Button
                       variant="outline"
                       className="px-8 py-3 bg-white dark:bg-card hover:bg-brand-secondary dark:hover:bg-gray-800 text-brand-primary dark:text-brand-primary/80 border-brand-primary dark:border-brand-primary/50 rounded-lg shadow-md hover:shadow-lg transition-all duration-200 hover:scale-105"
                       onClick={handleSharePhoto}
                     >
                       <Share2 className="w-5 h-5 mr-2" /> Share to Social Media
-                    </Button>
+                    </Button> */}
                   </div>
                 </div>
               )}
