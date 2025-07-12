@@ -274,17 +274,6 @@ export default function PhotoEnhancementApp() {
                   <div className="absolute top-4 left-4 bg-brand-accent text-white px-4 py-2 rounded-full text-sm font-medium shadow-md">
                     Enhanced
                   </div>
-
-                  {/* Before/After Toggle (Placeholder for future interactive comparison) */}
-                  <div className="absolute bottom-4 right-4">
-                    <div className="bg-white dark:bg-gray-800 rounded-full px-4 py-2 shadow-lg border border-gray-200 dark:border-gray-700 flex items-center space-x-2">
-                      <span className="text-sm font-medium text-gray-600 dark:text-gray-400">Before</span>
-                      <div className="w-10 h-5 bg-gray-300 dark:bg-gray-600 rounded-full relative flex items-center p-0.5">
-                        <div className="w-4 h-4 bg-brand-primary rounded-full absolute right-0 transition-all duration-300"></div>
-                      </div>
-                      <span className="text-sm font-medium text-brand-text-dark dark:text-brand-text-light">After</span>
-                    </div>
-                  </div>
                 </div>
               </div>
 
