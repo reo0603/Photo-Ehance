@@ -53,7 +53,7 @@ const config = {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
-        // Custom colors for the new design
+        // Custom brand colors
         "brand-primary": "hsl(210 90% 40%)", // A deep blue
         "brand-secondary": "hsl(210 40% 96.1%)", // Light gray for secondary elements
         "brand-accent": "hsl(30 90% 55%)", // A warm orange/gold for highlights

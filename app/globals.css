@@ -2,59 +2,67 @@
 @tailwind components;
 @tailwind utilities;
 
-body {
-  font-family: "Inter", sans-serif; /* Using a modern sans-serif font */
-}
-
-@layer utilities {
-  .text-balance {
-    text-wrap: balance;
-  }
-}
-
 @layer base {
   :root {
-    --background: 210 20% 98%; /* Light background */
-    --foreground: 210 10% 20%; /* Dark text */
+    --background: 0 0% 100%;
+    --foreground: 210 10% 20%; /* brand-text-dark */
+
     --card: 0 0% 100%;
-    --card-foreground: 210 10% 20%;
+    --card-foreground: 210 10% 20%; /* brand-text-dark */
+
     --popover: 0 0% 100%;
-    --popover-foreground: 210 10% 20%;
-    --primary: 210 90% 40%; /* Brand primary blue */
-    --primary-foreground: 0 0% 98%;
-    --secondary: 210 40% 96.1%; /* Brand secondary light gray */
-    --secondary-foreground: 210 10% 20%;
+    --popover-foreground: 210 10% 20%; /* brand-text-dark */
+
+    --primary: 210 90% 40%; /* brand-primary */
+    --primary-foreground: 0 0% 98%; /* brand-text-light */
+
+    --secondary: 210 40% 96.1%; /* brand-secondary */
+    --secondary-foreground: 210 10% 20%; /* brand-text-dark */
+
     --muted: 210 40% 96.1%;
-    --muted-foreground: 210 10% 45.1%;
-    --accent: 30 90% 55%; /* Brand accent orange/gold */
-    --accent-foreground: 0 0% 98%;
+    --muted-foreground: 210 10% 40%;
+
+    --accent: 30 90% 55%; /* brand-accent */
+    --accent-foreground: 210 10% 20%; /* brand-text-dark */
+
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 98%;
-    --border: 210 20% 90%;
-    --input: 210 20% 90%;
-    --ring: 210 90% 40%;
-    --radius: 0.75rem; /* Slightly larger border radius */
+
+    --border: 210 40% 96.1%;
+    --input: 210 40% 96.1%;
+    --ring: 210 90% 40%; /* brand-primary */
+
+    --radius: 0.5rem;
   }
+
   .dark {
-    --background: 210 10% 10%; /* Dark background */
-    --foreground: 0 0% 98%; /* Light text */
-    --card: 210 10% 15%;
-    --card-foreground: 0 0% 98%;
-    --popover: 210 10% 15%;
+    --background: 210 10% 10%; /* brand-bg-dark */
+    --foreground: 0 0% 98%; /* brand-text-light */
+
+    --card: 210 10% 10%; /* brand-bg-dark */
+    --card-foreground: 0 0% 98%; /* brand-text-light */
+
+    --popover: 210 10% 10%;
     --popover-foreground: 0 0% 98%;
-    --primary: 210 90% 60%; /* Lighter blue for dark mode primary */
-    --primary-foreground: 210 10% 10%;
-    --secondary: 210 10% 25%;
+
+    --primary: 210 90% 40%;
+    --primary-foreground: 0 0% 98%;
+
+    --secondary: 210 10% 20%;
     --secondary-foreground: 0 0% 98%;
-    --muted: 210 10% 25%;
-    --muted-foreground: 210 10% 60%;
-    --accent: 30 90% 65%; /* Lighter orange for dark mode accent */
-    --accent-foreground: 210 10% 10%;
+
+    --muted: 210 10% 20%;
+    --muted-foreground: 210 10% 40%;
+
+    --accent: 30 90% 55%;
+    --accent-foreground: 210 10% 20%;
+
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 0 0% 98%;
-    --border: 210 10% 25%;
-    --input: 210 10% 25%;
-    --ring: 210 90% 60%;
+
+    --border: 210 10% 20%;
+    --input: 210 10% 20%;
+    --ring: 210 90% 40%;
   }
 }
 
@@ -64,15 +72,40 @@ body {
   }
   body {
     @apply bg-background text-foreground;
-    /* Subtle background pattern/gradient */
-    background: linear-gradient(
-      135deg,
-      hsl(var(--background)) 0%,
-      hsl(var(--background)) 70%,
-      hsl(var(--primary) / 0.05) 100%
-    );
-    background-size: 200% 200%;
-    animation: background-pan 15s ease infinite;
+    font-family: "Inter", sans-serif;
+  }
+}
+
+@layer components {
+  .slider-thumb-brand-primary::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    height: 20px;
+    width: 20px;
+    border-radius: 50%;
+    background: hsl(var(--primary)); /* Use brand primary color */
+    cursor: pointer;
+    border: 2px solid hsl(var(--background));
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    transition: background 0.2s ease-in-out, transform 0.2s ease-in-out;
+  }
+
+  .slider-thumb-brand-primary::-moz-range-thumb {
+    height: 20px;
+    width: 20px;
+    border-radius: 50%;
+    background: hsl(var(--primary)); /* Use brand primary color */
+    cursor: pointer;
+    border: 2px solid hsl(var(--background));
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    transition: background 0.2s ease-in-out, transform 0.2s ease-in-out;
+  }
+
+  .slider-thumb-brand-primary::-webkit-slider-thumb:hover {
+    transform: scale(1.1);
+  }
+
+  .slider-thumb-brand-primary::-moz-range-thumb:hover {
+    transform: scale(1.1);
   }
 }
 
@@ -88,7 +121,7 @@ body {
 
 @keyframes slide-in-from-bottom {
   from {
-    transform: translateY(20px);
+    transform: translateY(16px);
     opacity: 0;
   }
   to {
@@ -99,7 +132,7 @@ body {
 
 @keyframes scale-in {
   from {
-    transform: scale(0.9);
+    transform: scale(0.95);
     opacity: 0;
   }
   to {
@@ -121,16 +154,17 @@ body {
 }
 
 .animate-fade-in {
-  animation: fade-in 0.6s ease-out forwards;
-}
-.animate-slide-in-from-bottom {
-  animation: slide-in-from-bottom 0.6s ease-out forwards;
-}
-.animate-scale-in {
-  animation: scale-in 0.4s ease-out forwards;
+  animation: fade-in 0.5s ease-out forwards;
 }
 
-/* Delay utilities */
+.animate-slide-in-from-bottom {
+  animation: slide-in-from-bottom 0.5s ease-out forwards;
+}
+
+.animate-scale-in {
+  animation: scale-in 0.3s ease-out forwards;
+}
+
 .animate-delay-100 {
   animation-delay: 0.1s;
 }
@@ -149,6 +183,16 @@ body {
 .animate-delay-600 {
   animation-delay: 0.6s;
 }
-.animate-delay-700 {
-  animation-delay: 0.7s;
+
+/* Animated background gradient */
+body {
+  background: linear-gradient(-45deg, #e0f2f7, #c8e6c9, #bbdefb, #f8bbd0);
+  background-size: 400% 400%;
+  animation: background-pan 15s ease infinite;
+}
+
+.dark body {
+  background: linear-gradient(-45deg, #1a202c, #2d3748, #4a5568, #2c3e50);
+  background-size: 400% 400%;
+  animation: background-pan 15s ease infinite;
 }

@@ -1,17 +1,19 @@
 export default function Footer() {
   return (
-    <footer className="w-full py-8 text-center text-sm text-gray-600 bg-white/50 backdrop-blur-sm border-t border-gray-200 mt-12 shadow-inner">
-      <div className="max-w-4xl mx-auto px-4">
-        <p>&copy; {new Date().getFullYear()} PhotoEnhance. All rights reserved.</p>
-        <p className="mt-2">
-          <a href="#" className="hover:underline text-gray-700">
+    <footer className="w-full py-8 px-4 bg-white dark:bg-card text-brand-text-dark dark:text-brand-text-light border-t border-gray-200 dark:border-gray-700 mt-12">
+      <div className="max-w-4xl mx-auto flex flex-col md:flex-row justify-between items-center text-sm space-y-4 md:space-y-0">
+        <p style={{ color: 'black'}}>&copy; {new Date().getFullYear()} PhotoEnhance. All rights reserved.</p>
+        <nav className="space-x-4">
+          <a href="#" className="hover:text-brand-primary transition-colors" style={{ color: 'black'}}>
             Privacy Policy
-          </a>{" "}
-          |{" "}
-          <a href="#" className="hover:underline text-gray-700">
+          </a>
+          <a href="#" className="hover:text-brand-primary transition-colors" style={{ color: 'black'}}>
             Terms of Service
           </a>
-        </p>
+          <a href="#" className="hover:text-brand-primary transition-colors" style={{ color: 'black'}}>
+            Contact Us
+          </a>
+        </nav>
       </div>
     </footer>
   )

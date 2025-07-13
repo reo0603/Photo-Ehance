@@ -2,7 +2,7 @@
 
 import * as React from "react"
 import * as SelectPrimitive from "@radix-ui/react-select"
-import { CheckIcon, ChevronDownIcon } from "@radix-ui/react-icons"
+import { ChevronDownIcon, CheckIcon } from "@radix-ui/react-icons"
 
 import { cn } from "@/lib/utils"
 
@@ -90,7 +90,7 @@ const SelectItem = React.forwardRef<
     {children}
   </SelectPrimitive.Item>
 ))
-SelectItem.displayName = SelectPrimitive.SelectItem.displayName
+SelectItem.displayName = SelectPrimitive.Item.displayName
 
 const SelectSeparator = React.forwardRef<
   React.ElementRef<typeof SelectPrimitive.Separator>,

@@ -4,6 +4,7 @@ import type React from "react"
 import { useState, useCallback, useRef } from "react"
 import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
+import { Checkbox } from "@/components/ui/checkbox" // Import Checkbox
 import { ImageIcon, Settings, Sliders, Clock, Trash2, Download, Share2 } from "lucide-react"
 import Image from "next/image"
 import Footer from "@/components/footer" // Import the new Footer component
@@ -16,14 +17,57 @@ export default function PhotoEnhancementApp() {
   const [afterImageUrl, setAfterImageUrl] = useState<string>("")
 
   const [showHistoryModal, setShowHistoryModal] = useState(false)
-  const [showPreferencesModal, setShowPreferencesModal] = useState(false)
+  const [showPreferencesModal, setShowPreferencesModal] = useState(false) // Existing multi-slider preferences
   const [showNotification, setShowNotification] = useState(false)
   const [notificationMessage, setNotificationMessage] = useState("")
+
+  // Existing preferences for the multi-slider modal
   const [preferences, setPreferences] = useState({
     face: 50,
     body: 50,
     clothes: 50,
     background: 50,
+  })
+
+  // New states for individual feature modals
+  const [showFacialFeaturesModal, setShowFacialFeaturesModal] = useState(false)
+  const [facialFeatures, setFacialFeatures] = useState({
+    smiling: false,
+    crying: false,
+    gloomy: false,
+  })
+
+  const [showBodyContourModal, setShowBodyContourModal] = useState(false)
+  const [bodyContour, setBodyContour] = useState({
+    chest: 50,
+    stomach: 50,
+    waist: 50,
+    legs: 50,
+  })
+
+  const [showBackgroundChangeModal, setShowBackgroundChangeModal] = useState(false)
+  const [selectedBackground, setSelectedBackground] = useState<string | null>(null)
+  const backgroundImages = [
+    "/backgrounds/bg1.png",
+    "/backgrounds/bg2.png",
+    "/backgrounds/bg3.png",
+    // Add more background images as needed
+  ]
+
+  const [showClothChangesModal, setShowClothChangesModal] = useState(false)
+  const [selectedCloth, setSelectedCloth] = useState<string | null>(null)
+  const clothImages = [
+    "/clothes/cloth1.png",
+    "/clothes/cloth2.png",
+    "/clothes/cloth3.png",
+    // Add more clothing images as needed
+  ]
+
+  const [showPoseAlgorithmModal, setShowPoseAlgorithmModal] = useState(false)
+  const [poseOptions, setPoseOptions] = useState({
+    standing: false,
+    sitting: false,
+    lyingDown: false,
   })
 
   const fileInputRef = useRef<HTMLInputElement>(null)
@@ -149,6 +193,73 @@ export default function PhotoEnhancementApp() {
 
   const handleSharePhoto = () => {
     setNotificationMessage("Share functionality coming soon!")
+    setShowNotification(true)
+    setTimeout(() => setShowNotification(false), 3000)
+  }
+
+  // Handlers for new modals
+  const handleFacialFeatureChange = (feature: string, checked: boolean) => {
+    setFacialFeatures((prev) => ({
+      ...prev,
+      [feature]: checked,
+    }))
+  }
+
+  const handleApplyFacialFeatures = () => {
+    setShowFacialFeaturesModal(false)
+    setNotificationMessage("Facial features adjusted!")
+    setShowNotification(true)
+    setTimeout(() => setShowNotification(false), 3000)
+  }
+
+  const handleBodyContourSliderChange = (part: string, value: number) => {
+    setBodyContour((prev) => ({
+      ...prev,
+      [part]: value,
+    }))
+  }
+
+  const handleApplyBodyContour = () => {
+    setShowBodyContourModal(false)
+    setNotificationMessage("Body contour adjusted!")
+    setShowNotification(true)
+    setTimeout(() => setShowNotification(false), 3000)
+  }
+
+  const handleBackgroundSelect = (image: string) => {
+    setSelectedBackground(image)
+  }
+
+  const handleApplyBackgroundChange = () => {
+    setShowBackgroundChangeModal(false)
+    setNotificationMessage(
+      `Background changed to ${selectedBackground ? selectedBackground.split("/").pop() : "default"}!`,
+    )
+    setShowNotification(true)
+    setTimeout(() => setShowNotification(false), 3000)
+  }
+
+  const handleClothSelect = (image: string) => {
+    setSelectedCloth(image)
+  }
+
+  const handleApplyClothChanges = () => {
+    setShowClothChangesModal(false)
+    setNotificationMessage(`Clothes changed to ${selectedCloth ? selectedCloth.split("/").pop() : "default"}!`)
+    setShowNotification(true)
+    setTimeout(() => setShowNotification(false), 3000)
+  }
+
+  const handlePoseOptionChange = (pose: string, checked: boolean) => {
+    setPoseOptions((prev) => ({
+      ...prev,
+      [pose]: checked,
+    }))
+  }
+
+  const handleApplyPoseAlgorithm = () => {
+    setShowPoseAlgorithmModal(false)
+    setNotificationMessage("Pose adjusted!")
     setShowNotification(true)
     setTimeout(() => setShowNotification(false), 3000)
   }
@@ -280,66 +391,58 @@ export default function PhotoEnhancementApp() {
               {/* Enhancement Options */}
               <div className="mb-10">
                 <h3 className="text-xl font-semibold text-brand-text-dark dark:text-brand-text-light mb-6 text-center">
-                  Choose Enhancement Type
+                  Select an Enhancement Feature
                 </h3>
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-
+                <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
                   <Button
                     className="flex flex-col items-center gap-2 h-24 bg-gradient-to-br from-pink-600 to-pink-700 hover:from-pink-700 hover:to-pink-800 text-white border-0 rounded-xl shadow-md hover:shadow-lg transition-all duration-200 hover:scale-105"
-                    onClick={() => {
-                      setNotificationMessage("Face enhanced!")
-                      setShowNotification(true)
-                      setTimeout(() => setShowNotification(false), 3000)
-                    }}
+                    onClick={() => setShowFacialFeaturesModal(true)}
                   >
                     <div className="w-8 h-8 bg-white bg-opacity-20 rounded-full flex items-center justify-center">
                       <span className="text-lg">😊</span>
                     </div>
-                    <span className="text-sm font-medium">Enhance Face</span>
+                    <span className="text-sm font-medium">Facial Features</span>
                   </Button>
 
                   <Button
                     className="flex flex-col items-center gap-2 h-24 bg-gradient-to-br from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white border-0 rounded-xl shadow-md hover:shadow-lg transition-all duration-200 hover:scale-105"
-                    onClick={() => {
-                      setNotificationMessage("Body enhanced!")
-                      setShowNotification(true)
-                      setTimeout(() => setShowNotification(false), 3000)
-                    }}
+                    onClick={() => setShowBodyContourModal(true)}
                   >
                     <div className="w-8 h-8 bg-white bg-opacity-20 rounded-full flex items-center justify-center">
                       <span className="text-lg">💪</span>
                     </div>
-                    <span className="text-sm font-medium">Enhance Body</span>
-                  </Button>
-
-                  <Button
-                    className="flex flex-col items-center gap-2 h-24 bg-gradient-to-br from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800 text-white border-0 rounded-xl shadow-md hover:shadow-lg transition-all duration-200 hover:scale-105"
-                    onClick={() => {
-                      setNotificationMessage("Clothes enhanced!")
-                      setShowNotification(true)
-                      setTimeout(() => setShowNotification(false), 3000)
-                    }}
-                  >
-                    <div className="w-8 h-8 bg-white bg-opacity-20 rounded-full flex items-center justify-center">
-                      <span className="text-lg">👔</span>
-                    </div>
-                    <span className="text-sm font-medium">Enhance Clothes</span>
+                    <span className="text-sm font-medium">Body Contour</span>
                   </Button>
 
                   <Button
                     className="flex flex-col items-center gap-2 h-24 bg-gradient-to-br from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white border-0 rounded-xl shadow-md hover:shadow-lg transition-all duration-200 hover:scale-105"
-                    onClick={() => {
-                      setNotificationMessage("Background enhanced!")
-                      setShowNotification(true)
-                      setTimeout(() => setShowNotification(false), 3000)
-                    }}
+                    onClick={() => setShowBackgroundChangeModal(true)}
                   >
                     <div className="w-8 h-8 bg-white bg-opacity-20 rounded-full flex items-center justify-center">
                       <span className="text-lg">🌅</span>
                     </div>
-                    <span className="text-sm font-medium">Enhance Background</span>
+                    <span className="text-sm font-medium">Background Change</span>
                   </Button>
 
+                  <Button
+                    className="flex flex-col items-center gap-2 h-24 bg-gradient-to-br from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800 text-white border-0 rounded-xl shadow-md hover:shadow-lg transition-all duration-200 hover:scale-105"
+                    onClick={() => setShowClothChangesModal(true)}
+                  >
+                    <div className="w-8 h-8 bg-white bg-opacity-20 rounded-full flex items-center justify-center">
+                      <span className="text-lg">👔</span>
+                    </div>
+                    <span className="text-sm font-medium">Cloth Changes</span>
+                  </Button>
+
+                  <Button
+                    className="flex flex-col items-center gap-2 h-24 bg-gradient-to-br from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white border-0 rounded-xl shadow-md hover:shadow-lg transition-all duration-200 hover:scale-105"
+                    onClick={() => setShowPoseAlgorithmModal(true)}
+                  >
+                    <div className="w-8 h-8 bg-white bg-opacity-20 rounded-full flex items-center justify-center">
+                      <span className="text-lg">🧘</span>
+                    </div>
+                    <span className="text-sm font-medium">Pose Algorithm</span>
+                  </Button>
                 </div>
               </div>
 
@@ -347,46 +450,42 @@ export default function PhotoEnhancementApp() {
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                 <Button
                   variant="outline"
-                  className="flex items-center gap-2 h-12 bg-black hover:bg-brand-secondary dark:hover:bg-gray-800 transition-colors border-gray-300 dark:border-gray-700 rounded-lg shadow-sm hover:shadow-md transition-all duration-200 hover:scale-105"
+                  className="flex items-center gap-2 h-12 bg-black transition-colors border-gray-300 dark:border-gray-700 rounded-lg shadow-sm hover:shadow-md transition-all duration-200 hover:scale-105 text-brand-text-light"
                   onClick={handleApplySettings}
                 >
                   <Settings className="w-4 h-4 text-gray-700 dark:text-gray-300" />
-                  <span className="hidden sm:inline text-brand-text-dark dark:text-brand-text-light">
-                    Apply last settings
-                  </span>
-                  <span className="sm:hidden text-brand-text-dark dark:text-brand-text-light">Settings</span>
+                  <span className="hidden sm:inline">Apply last settings</span>
+                  <span className="sm:hidden">Settings</span>
                 </Button>
 
                 <Button
                   variant="outline"
-                  className="flex items-center gap-2 h-12 bg-black hover:bg-brand-secondary dark:hover:bg-gray-800 transition-colors border-gray-300 dark:border-gray-700 rounded-lg shadow-sm hover:shadow-md transition-all duration-200 hover:scale-105"
+                  className="flex items-center gap-2 h-12 bg-black transition-colors border-gray-300 dark:border-gray-700 rounded-lg shadow-sm hover:shadow-md transition-all duration-200 hover:scale-105 text-brand-text-light"
                   onClick={handleEditPreferences}
                 >
                   <Sliders className="w-4 h-4 text-gray-700 dark:text-gray-300" />
-                  <span className="hidden sm:inline text-brand-text-dark dark:text-brand-text-light">
-                    Edit preferences
-                  </span>
-                  <span className="sm:hidden text-brand-text-dark dark:text-brand-text-light">Edit</span>
+                  <span className="hidden sm:inline">Edit preferences</span>
+                  <span className="sm:hidden">Edit</span>
                 </Button>
 
                 <Button
                   variant="outline"
-                  className="flex items-center gap-2 h-12 bg-black hover:bg-brand-secondary dark:hover:bg-gray-800 transition-colors border-gray-300 dark:border-gray-700 rounded-lg shadow-sm hover:shadow-md transition-all duration-200 hover:scale-105"
+                  className="flex items-center gap-2 h-12 bg-black transition-colors border-gray-300 dark:border-gray-700 rounded-lg shadow-sm hover:shadow-md transition-all duration-200 hover:scale-105 text-brand-text-light"
                   onClick={handleViewHistory}
                 >
                   <Clock className="w-4 h-4 text-gray-700 dark:text-gray-300" />
-                  <span className="hidden sm:inline text-brand-text-dark dark:text-brand-text-light">View history</span>
-                  <span className="sm:hidden text-brand-text-dark dark:text-brand-text-light">History</span>
+                  <span className="hidden sm:inline">View history</span>
+                  <span className="sm:hidden">History</span>
                 </Button>
 
                 <Button
                   variant="outline"
-                  className="flex items-center gap-2 h-12 bg-black hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-600 dark:hover:text-red-400 hover:border-red-200 dark:hover:border-red-900 transition-colors rounded-lg shadow-sm hover:shadow-md transition-all duration-200 hover:scale-105"
+                  className="flex items-center gap-2 h-12 bg-black hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-600 dark:hover:text-red-400 hover:border-red-200 dark:hover:border-900 transition-colors rounded-lg shadow-sm hover:shadow-md transition-all duration-200 hover:scale-105 text-brand-text-light"
                   onClick={handleDelete}
                 >
                   <Trash2 className="w-4 h-4" />
-                  <span className="hidden sm:inline text-brand-text-dark dark:text-brand-text-light">Delete Photo</span>
-                  <span className="sm:hidden text-brand-text-dark dark:text-brand-text-light">Delete</span>
+                  <span className="hidden sm:inline">Delete Photo</span>
+                  <span className="sm:hidden">Delete</span>
                 </Button>
               </div>
 
@@ -400,13 +499,6 @@ export default function PhotoEnhancementApp() {
                     >
                       <Download className="w-5 h-5 mr-2" /> Download Enhanced Photo
                     </Button>
-                    {/* <Button
-                      variant="outline"
-                      className="px-8 py-3 bg-white dark:bg-card hover:bg-brand-secondary dark:hover:bg-gray-800 text-brand-primary dark:text-brand-primary/80 border-brand-primary dark:border-brand-primary/50 rounded-lg shadow-md hover:shadow-lg transition-all duration-200 hover:scale-105"
-                      onClick={handleSharePhoto}
-                    >
-                      <Share2 className="w-5 h-5 mr-2" /> Share to Social Media
-                    </Button> */}
                   </div>
                 </div>
               )}
@@ -454,7 +546,7 @@ export default function PhotoEnhancementApp() {
           <div className="bg-white dark:bg-card rounded-xl max-w-4xl w-full max-h-[80vh] overflow-y-auto animate-scale-in animate-fade-in shadow-2xl">
             <div className="p-6">
               <div className="flex justify-between items-center mb-6 border-b pb-4 border-gray-200 dark:border-gray-700">
-                <h2 className="text-2xl font-bold text-brand-text-dark dark:text-brand-text-light">
+                <h2 className="text-2xl font-bold text-brand-text-dark dark:text-brand-text-light" style={{ color: 'black' }}>
                   Enhance Photo History
                 </h2>
                 <Button
@@ -491,13 +583,13 @@ export default function PhotoEnhancementApp() {
         </div>
       )}
 
-      {/* Preferences Modal */}
+      {/* Preferences Modal (Existing multi-slider) */}
       {showPreferencesModal && (
         <div className="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-40 p-4 animate-fade-in">
           <div className="bg-white dark:bg-card rounded-xl max-w-md w-full animate-scale-in animate-fade-in shadow-2xl">
             <div className="p-6">
               <div className="flex justify-between items-center mb-6 border-b pb-4 border-gray-200 dark:border-gray-700">
-                <h2 className="text-xl font-bold text-brand-text-dark dark:text-brand-text-light">
+                <h2 className="text-xl font-bold text-brand-text-dark dark:text-brand-text-light" style={{ color: 'black' }}>
                   Training AI Photo Enhance Model
                 </h2>
                 <Button
@@ -513,7 +605,7 @@ export default function PhotoEnhancementApp() {
               <div className="space-y-6">
                 {/* Face Slider */}
                 <div className="flex items-center gap-4">
-                  <label className="w-24 text-sm font-medium text-gray-700 dark:text-gray-300">Face</label>
+                  <label className="w-24 text-sm font-medium text-gray-700 dark:text-gray-300" style={{ color: 'black' }}>Face</label>
                   <div className="flex-1">
                     <input
                       type="range"
@@ -529,7 +621,7 @@ export default function PhotoEnhancementApp() {
 
                 {/* Body Slider */}
                 <div className="flex items-center gap-4">
-                  <label className="w-24 text-sm font-medium text-gray-700 dark:text-gray-300">Body</label>
+                  <label className="w-24 text-sm font-medium text-gray-700 dark:text-gray-300" style={{ color: 'black' }}>Body</label>
                   <div className="flex-1">
                     <input
                       type="range"
@@ -545,7 +637,7 @@ export default function PhotoEnhancementApp() {
 
                 {/* Clothes Slider */}
                 <div className="flex items-center gap-4">
-                  <label className="w-24 text-sm font-medium text-gray-700 dark:text-gray-300">Clothes</label>
+                  <label className="w-24 text-sm font-medium text-gray-700 dark:text-gray-300" style={{ color: 'black' }}>Clothes</label>
                   <div className="flex-1">
                     <input
                       type="range"
@@ -563,7 +655,7 @@ export default function PhotoEnhancementApp() {
 
                 {/* Background Slider */}
                 <div className="flex items-center gap-4">
-                  <label className="w-24 text-sm font-medium text-gray-700 dark:text-gray-300">Background</label>
+                  <label className="w-24 text-sm font-medium text-gray-700 dark:text-gray-300" style={{ color: 'black' }}>Background</label>
                   <div className="flex-1">
                     <input
                       type="range"
@@ -593,39 +685,320 @@ export default function PhotoEnhancementApp() {
           </div>
         </div>
       )}
+
+      {/* Facial Features Adjustment Modal */}
+      {showFacialFeaturesModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-40 p-4 animate-fade-in">
+          <div className="bg-white dark:bg-card rounded-xl max-w-md w-full animate-scale-in animate-fade-in shadow-2xl">
+            <div className="p-6">
+              <div className="flex justify-between items-center mb-6 border-b pb-4 border-gray-200 dark:border-gray-700">
+                <h2 className="text-xl font-bold text-brand-text-dark dark:text-brand-text-light" style={{ color: 'black' }}>
+                  Adjust Facial Features
+                </h2>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => setShowFacialFeaturesModal(false)}
+                  className="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200"
+                >
+                  ✕
+                </Button>
+              </div>
+              <div className="space-y-4">
+                <div className="flex items-center space-x-2">
+                  <Checkbox
+                    id="smiling-face"
+                    checked={facialFeatures.smiling}
+                    onCheckedChange={(checked) => handleFacialFeatureChange("smiling", !!checked)}
+                  />
+                  <label
+                    htmlFor="smiling-face"
+                    className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                    style={{ color: 'black' }}
+                  >
+                    Smiling face
+                  </label>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <Checkbox
+                    id="crying-face"
+                    checked={facialFeatures.crying}
+                    onCheckedChange={(checked) => handleFacialFeatureChange("crying", !!checked)}
+                  />
+                  <label
+                    htmlFor="crying-face"
+                    className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                    style={{ color: 'black' }}
+                  >
+                    Crying face
+                  </label>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <Checkbox
+                    id="gloomy-face"
+                    checked={facialFeatures.gloomy}
+                    onCheckedChange={(checked) => handleFacialFeatureChange("gloomy", !!checked)}
+                  />
+                  <label
+                    htmlFor="gloomy-face"
+                    className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                    style={{ color: 'black' }}
+                  >
+                    Gloomy face
+                  </label>
+                </div>
+                <div className="flex justify-end pt-4">
+                  <Button
+                    onClick={handleApplyFacialFeatures}
+                    className="bg-brand-primary hover:bg-brand-primary/90 text-brand-text-light px-8 py-2 rounded-lg shadow-md hover:shadow-lg transition-all duration-200 hover:scale-105"
+                  >
+                    APPLY
+                  </Button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Body Contour Modal */}
+      {showBodyContourModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-40 p-4 animate-fade-in">
+          <div className="bg-white dark:bg-card rounded-xl max-w-md w-full animate-scale-in animate-fade-in shadow-2xl">
+            <div className="p-6">
+              <div className="flex justify-between items-center mb-6 border-b pb-4 border-gray-200 dark:border-gray-700">
+                <h2 className="text-xl font-bold text-brand-text-dark dark:text-brand-text-light" style={{ color: 'black' }}>Body Contour</h2>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => setShowBodyContourModal(false)}
+                  className="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200"
+                >
+                  ✕
+                </Button>
+              </div>
+              <div className="space-y-6">
+                {Object.entries(bodyContour).map(([part, value]) => (
+                  <div key={part} className="flex items-center gap-4">
+                    <label className="w-24 text-sm font-medium text-gray-700 dark:text-gray-300 capitalize" style={{ color: 'black' }}>
+                      {part}
+                    </label>
+                    <div className="flex-1">
+                      <input
+                        type="range"
+                        min="0"
+                        max="100"
+                        value={value}
+                        onChange={(e) => handleBodyContourSliderChange(part, Number.parseInt(e.target.value))}
+                        className="w-full h-2 bg-gray-200 dark:bg-gray-700 rounded-lg appearance-none cursor-pointer slider-thumb-brand-primary"
+                      />
+                    </div>
+                    <span className="w-10 text-sm text-gray-600 dark:text-gray-400 text-right">{value}</span>
+                  </div>
+                ))}
+                <div className="flex justify-end pt-4">
+                  <Button
+                    onClick={handleApplyBodyContour}
+                    className="bg-brand-primary hover:bg-brand-primary/90 text-brand-text-light px-8 py-2 rounded-lg shadow-md hover:shadow-lg transition-all duration-200 hover:scale-105"
+                  >
+                    APPLY
+                  </Button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Background Change Modal */}
+      {showBackgroundChangeModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-40 p-4 animate-fade-in">
+          <div className="bg-white dark:bg-card rounded-xl max-w-2xl w-full animate-scale-in animate-fade-in shadow-2xl">
+            <div className="p-6">
+              <div className="flex justify-between items-center mb-6 border-b pb-4 border-gray-200 dark:border-gray-700">
+                <h2 className="text-xl font-bold text-brand-text-dark dark:text-brand-text-light" style={{ color: 'black' }}>Background Change</h2>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => setShowBackgroundChangeModal(false)}
+                  className="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200"
+                >
+                  ✕
+                </Button>
+              </div>
+              <div className="space-y-6">
+                <div className="grid grid-cols-3 gap-4 max-h-80 overflow-y-auto pr-2">
+                  {backgroundImages.map((image, index) => (
+                    <div
+                      key={index}
+                      className={`relative group cursor-pointer rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-all duration-200 ${
+                        selectedBackground === image ? "border-2 border-brand-primary ring-2 ring-brand-primary" : ""
+                      }`}
+                      onClick={() => handleBackgroundSelect(image)}
+                    >
+                      <div className="aspect-[4/3] bg-gray-100 dark:bg-gray-800 overflow-hidden">
+                        <Image
+                          src={image || "/placeholder.svg"}
+                          alt={`Background ${index + 1}`}
+                          width={200}
+                          height={150}
+                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                          unoptimized
+                        />
+                      </div>
+                      {selectedBackground === image && (
+                        <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-40 text-white text-lg font-bold">
+                          Selected
+                        </div>
+                      )}
+                    </div>
+                  ))}
+                </div>
+                <div className="flex justify-end pt-4">
+                  <Button
+                    onClick={handleApplyBackgroundChange}
+                    className="bg-brand-primary hover:bg-brand-primary/90 text-brand-text-light px-8 py-2 rounded-lg shadow-md hover:shadow-lg transition-all duration-200 hover:scale-105"
+                  >
+                    APPLY
+                  </Button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Cloth Changes Modal */}
+      {showClothChangesModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-40 p-4 animate-fade-in">
+          <div className="bg-white dark:bg-card rounded-xl max-w-2xl w-full animate-scale-in animate-fade-in shadow-2xl">
+            <div className="p-6">
+              <div className="flex justify-between items-center mb-6 border-b pb-4 border-gray-200 dark:border-gray-700">
+                <h2 className="text-xl font-bold text-brand-text-dark dark:text-brand-text-light" style={{ color: 'black' }}>Cloth Changes</h2>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => setShowClothChangesModal(false)}
+                  className="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200"
+                >
+                  ✕
+                </Button>
+              </div>
+              <div className="space-y-6">
+                <div className="grid grid-cols-3 gap-4 max-h-80 overflow-y-auto pr-2">
+                  {clothImages.map((image, index) => (
+                    <div
+                      key={index}
+                      className={`relative group cursor-pointer rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-all duration-200 ${
+                        selectedCloth === image ? "border-2 border-brand-primary ring-2 ring-brand-primary" : ""
+                      }`}
+                      onClick={() => handleClothSelect(image)}
+                    >
+                      <div className="aspect-[3/4] bg-gray-100 dark:bg-gray-800 overflow-hidden">
+                        <Image
+                          src={image || "/placeholder.svg"}
+                          alt={`Cloth ${index + 1}`}
+                          width={150}
+                          height={200}
+                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                          unoptimized
+                        />
+                      </div>
+                      {selectedCloth === image && (
+                        <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-40 text-white text-lg font-bold">
+                          Selected
+                        </div>
+                      )}
+                    </div>
+                  ))}
+                </div>
+                <div className="flex justify-end pt-4">
+                  <Button
+                    onClick={handleApplyClothChanges}
+                    className="bg-brand-primary hover:bg-brand-primary/90 text-brand-text-light px-8 py-2 rounded-lg shadow-md hover:shadow-lg transition-all duration-200 hover:scale-105"
+                  >
+                    APPLY
+                  </Button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Pose Algorithm Modal */}
+      {showPoseAlgorithmModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-40 p-4 animate-fade-in">
+          <div className="bg-white dark:bg-card rounded-xl max-w-md w-full animate-scale-in animate-fade-in shadow-2xl">
+            <div className="p-6">
+              <div className="flex justify-between items-center mb-6 border-b pb-4 border-gray-200 dark:border-gray-700">
+                <h2 className="text-xl font-bold text-brand-text-dark dark:text-brand-text-light" style={{ color: 'black' }}>Pose Algorithm</h2>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => setShowPoseAlgorithmModal(false)}
+                  className="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200"
+                >
+                  ✕
+                </Button>
+              </div>
+              <div className="space-y-4">
+                <div className="flex items-center space-x-2">
+                  <Checkbox
+                    id="pose-standing"
+                    checked={poseOptions.standing}
+                    onCheckedChange={(checked) => handlePoseOptionChange("standing", !!checked)}
+                  />
+                  <label
+                    htmlFor="pose-standing"
+                    className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                    style={{ color: 'black' }}
+                  >
+                    Standing
+                  </label>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <Checkbox
+                    id="pose-sitting"
+                    checked={poseOptions.sitting}
+                    onCheckedChange={(checked) => handlePoseOptionChange("sitting", !!checked)}
+                  />
+                  <label
+                    htmlFor="pose-sitting"
+                    className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                    style={{ color: 'black' }}
+                  >
+                    Sitting
+                  </label>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <Checkbox
+                    id="pose-lying-down"
+                    checked={poseOptions.lyingDown}
+                    onCheckedChange={(checked) => handlePoseOptionChange("lyingDown", !!checked)}
+                  />
+                  <label
+                    htmlFor="pose-lying-down"
+                    className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                    style={{ color: 'black' }}
+                  >
+                    Lying down
+                  </label>
+                </div>
+                <div className="flex justify-end pt-4">
+                  <Button
+                    onClick={handleApplyPoseAlgorithm}
+                    className="bg-brand-primary hover:bg-brand-primary/90 text-brand-text-light px-8 py-2 rounded-lg shadow-md hover:shadow-lg transition-all duration-200 hover:scale-105"
+                  >
+                    APPLY
+                  </Button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
       <Footer />
     </div>
   )
 }
-;<style jsx>{`
-  .slider-thumb-brand-primary::-webkit-slider-thumb {
-    appearance: none;
-    height: 20px;
-    width: 20px;
-    border-radius: 50%;
-    background: hsl(var(--primary)); /* Use brand primary color */
-    cursor: pointer;
-    border: 2px solid hsl(var(--background));
-    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
-    transition: background 0.2s ease-in-out, transform 0.2s ease-in-out;
-  }
-
-  .slider-thumb-brand-primary::-moz-range-thumb {
-    height: 20px;
-    width: 20px;
-    border-radius: 50%;
-    background: hsl(var(--primary)); /* Use brand primary color */
-    cursor: pointer;
-    border: 2px solid hsl(var(--background));
-    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
-    transition: background 0.2s ease-in-out, transform 0.2s ease-in-out;
-  }
-
-  .slider-thumb-brand-primary::-webkit-slider-thumb:hover {
-    transform: scale(1.1);
-  }
-
-  .slider-thumb-brand-primary::-moz-range-thumb:hover {
-    transform: scale(1.1);
-  }
-`}</style>

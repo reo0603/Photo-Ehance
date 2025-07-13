@@ -11,7 +11,7 @@ type ToastsMap = Map<
   string,
   {
     toast: ToastProps
-    timeout: ReturnType<typeof setTimeout> | undefined
+    timeout: ReturnType<typeof setTimeout>
   }
 >
 
@@ -39,7 +39,7 @@ interface State {
 
 const toastTimeouts = new Map<string, ReturnType<typeof setTimeout>>()
 
-function addToRemoveQueue(toastId: string) {
+const addToRemoveQueue = (toastId: string) => {
   if (toastTimeouts.has(toastId)) {
     return
   }
@@ -69,14 +69,15 @@ export const reducer = (state: State, action: Action): State => {
         toasts: state.toasts.map((t) => (t.id === action.toast.id ? { ...t, ...action.toast } : t)),
       }
 
-    case "DISMISS_TOAST":
+    case "DISMISS_TOAST": {
       const { toastId } = action
+
       // ! Side effects !
       if (toastId) {
         addToRemoveQueue(toastId)
       } else {
         state.toasts.forEach((toast) => {
-          addToRemoveQueue(toast.id)
+          addToRemoveQueue(toast.id!)
         })
       }
 
@@ -91,6 +92,7 @@ export const reducer = (state: State, action: Action): State => {
             : t,
         ),
       }
+    }
     case "REMOVE_TOAST":
       if (action.toastId === undefined) {
         return {
@@ -115,26 +117,28 @@ function dispatch(action: Action) {
 }
 
 type Toast = Pick<ToastProps, "id" | "duration" | "promise" | "onOpenChange"> &
-  Partial<Pick<ToastProps, "title" | "description" | "action" | "cancel">>
+  Partial<Pick<ToastProps, "title" | "description" | "action">>
 
-function toast({ ...props }: Toast) {
-  const id = props.id || crypto.randomUUID()
+function createToastFunction(toast: Toast): {
+  id: string
+  dismiss: () => void
+  update: (toast: Toast) => void
+} {
+  const id = toast.id || crypto.randomUUID()
 
-  const update = (props: Toast) =>
-    dispatch({
-      type: "UPDATE_TOAST",
-      toast: { ...props, id },
-    })
   const dismiss = () => dispatch({ type: "DISMISS_TOAST", toastId: id })
+  const update = (toast: Toast) => dispatch({ type: "UPDATE_TOAST", toast: { ...toast, id } })
 
   dispatch({
     type: "ADD_TOAST",
     toast: {
-      ...props,
+      ...toast,
       id,
       open: true,
       onOpenChange: (open) => {
-        if (!open) dismiss()
+        if (!open) {
+          dismiss()
+        }
       },
     },
   })
@@ -161,11 +165,8 @@ function useToast() {
 
   return {
     ...state,
-    toast,
-    dismiss: React.useCallback((toastId?: string) => {
-      dispatch({ type: "DISMISS_TOAST", toastId })
-    }, []),
+    toast: React.useCallback(createToastFunction, []),
   }
 }
 
-export { toast, useToast }
+export { useToast, createToastFunction as toast }

@@ -1,87 +1,40 @@
 "use client"
 
-import * as React from "react"
-import { cva, type VariantProps } from "class-variance-authority"
+import type * as React from "react"
+import Link from "next/link"
+import { usePathname } from "next/navigation"
 
 import { cn } from "@/lib/utils"
 
-const sidebarVariants = cva("flex h-full flex-col border-r bg-sidebar-background text-sidebar-foreground", {
-  variants: {
-    variant: {
-      default: "",
-    },
-  },
-  defaultVariants: {
-    variant: "default",
-  },
-})
+interface SidebarProps extends React.HTMLAttributes<HTMLDivElement> {
+  items: {
+    href: string
+    title: string
+    icon?: React.ReactNode
+  }[]
+}
 
-export interface SidebarProps extends React.HTMLAttributes<HTMLDivElement>, VariantProps<typeof sidebarVariants> {}
+export function Sidebar({ className, items, ...props }: SidebarProps) {
+  const pathname = usePathname()
 
-const Sidebar = React.forwardRef<HTMLDivElement, SidebarProps>(({ className, variant, ...props }, ref) => (
-  <div ref={ref} className={cn(sidebarVariants({ variant }), className)} {...props} />
-))
-Sidebar.displayName = "Sidebar"
-
-const SidebarHeader = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(
-  ({ className, ...props }, ref) => (
-    <div ref={ref} className={cn("flex items-center justify-between p-4", className)} {...props} />
-  ),
-)
-SidebarHeader.displayName = "SidebarHeader"
-
-const SidebarTitle = React.forwardRef<HTMLHeadingElement, React.HTMLAttributes<HTMLHeadingElement>>(
-  ({ className, ...props }, ref) => <h3 ref={ref} className={cn("text-lg font-semibold", className)} {...props} />,
-)
-SidebarTitle.displayName = "SidebarTitle"
-
-const SidebarDescription = React.forwardRef<HTMLParagraphElement, React.HTMLAttributes<HTMLParagraphElement>>(
-  ({ className, ...props }, ref) => (
-    <p ref={ref} className={cn("text-sm text-muted-foreground", className)} {...props} />
-  ),
-)
-SidebarDescription.displayName = "SidebarDescription"
-
-const SidebarContent = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(
-  ({ className, ...props }, ref) => <div ref={ref} className={cn("flex-1 p-4", className)} {...props} />,
-)
-SidebarContent.displayName = "SidebarContent"
-
-const SidebarFooter = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(
-  ({ className, ...props }, ref) => <div ref={ref} className={cn("border-t p-4", className)} {...props} />,
-)
-SidebarFooter.displayName = "SidebarFooter"
-
-const SidebarNav = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(
-  ({ className, ...props }, ref) => <nav ref={ref} className={cn("space-y-1", className)} {...props} />,
-)
-SidebarNav.displayName = "SidebarNav"
-
-const SidebarNavLink = React.forwardRef<
-  HTMLAnchorElement,
-  React.ComponentPropsWithoutRef<"a"> & {
-    active?: boolean
-  }
->(({ className, active, ...props }, ref) => (
-  <a
-    ref={ref}
-    className={cn(
-      "flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium hover:bg-sidebar-accent hover:text-sidebar-accent-foreground",
-      active && "bg-sidebar-primary text-sidebar-primary-foreground",
-      className,
-    )}
-    {...props}
-  />
-))
-SidebarNavLink.displayName = "SidebarNavLink"
-
-export {
-  Sidebar,
-  SidebarHeader,
-  SidebarTitle,
-  SidebarDescription,
-  SidebarContent,
-  SidebarFooter,
-  SidebarNav,
-  SidebarNavLink,
+  return (
+    <nav className={cn("flex space-x-2 lg:flex-col lg:space-x-0 lg:space-y-1", className)} {...props}>
+      {items.map((item) => (
+        <Link
+          key={item.href}
+          href={item.href}
+          className={cn(
+            "inline-flex items-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50",
+            pathname === item.href
+              ? "bg-accent text-accent-foreground hover:bg-accent"
+              : "hover:bg-transparent hover:underline",
+            "justify-start px-4 py-2",
+          )}
+        >
+          {item.icon && <span className="mr-2">{item.icon}</span>}
+          {item.title}
+        </Link>
+      ))}
+    </nav>
+  )
 }
